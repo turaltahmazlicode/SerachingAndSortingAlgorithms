@@ -2,7 +2,7 @@
 {
     internal class Program
     {
-        private static List<int>? GetFibofibonacciNumbers(int arrayLenght)
+        public static List<int>? GetFibofibonacciNumbers(int arrayLenght)
         {
             int f0 = 0, f1 = 1;
             List<int> fibNumbers = new List<int>() { 0, 1 };
@@ -14,7 +14,7 @@
             }
             return fibNumbers;
         }
-        private static int FibofibonacciSearch(List<int> array, int element)
+        public static int FibofibonacciSearch(List<int> array, int element)
         {
             List<int>? fiboSequence = GetFibofibonacciNumbers(array.Count());
             int fiboShiftingIndex = fiboSequence.Count();
@@ -39,9 +39,36 @@
             return -1;
         }
 
+        public static int InterpolationSearch(List<int> arr, int key)
+        {
+            int low = 0;
+            int high = arr.Count() - 1;
+            int pos;
+            while (low <= high && key >= arr[low] && key <= arr[high])
+            {
+                pos = low + ((key - arr[low]) * (high - low)) / (arr[high] - arr[low]);
+                if (arr[pos] == key)
+                {
+                    return pos;
+                }
+                if (arr[pos] < key)
+                {
+                    low = pos + 1;
+                    continue;
+                }
+                if (arr[pos] > key)
+                {
+                    high = pos - 1;
+                    continue;
+                }
+            }
+            return -1;
+        }
+
         static void Main(string[] args)
         {
-            Console.WriteLine(FibofibonacciSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 10));
+            //Console.WriteLine(FibofibonacciSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 10));
+            Console.WriteLine(InterpolationSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 11));
         }
     }
 }
