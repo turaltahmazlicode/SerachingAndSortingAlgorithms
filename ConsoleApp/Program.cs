@@ -65,10 +65,67 @@
             return -1;
         }
 
+        public static int LinearSearch(ref int[] arr2, int key, int start, int end, bool isReversed = false)
+        {
+            if (isReversed)
+                for (int i = start; i < end; i++)
+                    if (arr2[i] == key)
+                        return i;
+            for (int i = end - 1; i >= start; i--)
+                if (arr2[i] == key)
+                    return i;
+            return -1;
+        }
+
+        public static int JumpSearch(int[] arr, int key)
+        {
+            int jumpStep = (int)Math.Round(Math.Sqrt(arr.Count()));
+            for (int jump = jumpStep; jump < arr.Length; jump += jumpStep)
+                if (key <= arr[jump])
+                    if (LinearSearch(ref arr, key, jump - jumpStep, jump, true) is var index && index != -1)
+                        return index;
+            return LinearSearch(ref arr, key, arr.Length - jumpStep, arr.Length, true);
+        }
+        /*for (int i = 0; i * jumpStep < arr2.Length; i++)
+            if (key <= arr2[jumpStep * i])
+            {
+                for (int j = jumpStep * j; j >= jumpStep * (i - 1); i--)
+                    if (arr2[j] == key)
+                        return j;
+                break;
+            }*/
+        /*                    for (int i = jump; i >= jump - jumpStep; i--)
+                                if (arr2[i] == key)
+                                    return i;
+                            LinearSearch(arr2[(jump - jumpStep)..jump], key, true) :
+                                       LinearSearch(arr2[(arr2.Length - 1 - jumpStep)..(arr2.Length - 1)], key, true);
+                        }
+                        for (int i = arr2.Length - 1; i >= arr2.Length - 1 - jumpStep; i--)
+                            if (arr2[i] == key)
+                                return i;*/
+
         static void Main(string[] args)
         {
             //Console.WriteLine(FibofibonacciSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 10));
-            Console.WriteLine(InterpolationSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 11));
+            //Console.WriteLine(InterpolationSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 11));
+            Random random = new Random(1);
+            for (int length = 1, i = default, j = default, jump = default; length < 1000000; length++)
+            {
+                int[] arr = new int[length];
+                for (j = 0; j < length; j++)
+                {
+                    arr[j] = random.Next(j * 10000, (j + 1) * 10000);
+                }
+                for (i = 0; i < arr.Length; i++)
+                {
+                    jump = JumpSearch(arr, arr[i]);
+                    if (-1 == jump)
+                    {
+                        Console.WriteLine("{0} {1} {2}", arr[i], jump, length);
+                    }
+                    //Console.WriteLine(arr2[i]);
+                }
+            }
         }
     }
 }
