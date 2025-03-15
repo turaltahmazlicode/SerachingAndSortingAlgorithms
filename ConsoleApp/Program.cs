@@ -65,14 +65,10 @@
             return -1;
         }
 
-        public static int LinearSearch(ref int[] arr2, int key, int start, int end, bool isReversed = false)
+        public static int ReversedLinearSearch(ref int[] arr, int key, int start, int end)
         {
-            if (isReversed)
-                for (int i = start; i < end; i++)
-                    if (arr2[i] == key)
-                        return i;
             for (int i = end; i >= start; i--)
-                if (arr2[i] == key)
+                if (arr[i] == key)
                     return i;
             return -1;
         }
@@ -81,14 +77,17 @@
         {
             int jumpStep = (int)Math.Round(Math.Sqrt(arr.Count()));
             for (int jump = jumpStep; jump < arr.Length; jump += jumpStep)
+            {
                 if (key <= arr[jump])
-                    if (LinearSearch(ref arr, key, jump - jumpStep, jump, true) is var index && index != -1)
+                {
+                    int index = ReversedLinearSearch(ref arr, key, jump - jumpStep, jump);
+                    if (index != -1)
                         return index;
-            return LinearSearch(ref arr, key, arr.Length - jumpStep, arr.Length - 1, true);
+                    break;
+                }
+            }
+            return ReversedLinearSearch(ref arr, key, arr.Length - jumpStep, arr.Length - 1);
         }
-
-
-
 
         /*for (int i = 0; i * jumpStep < arr2.Length; i++)
             if (key <= arr2[jumpStep * i])
@@ -113,7 +112,7 @@
             //Console.WriteLine(FibofibonacciSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 10));
             //Console.WriteLine(InterpolationSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 11));
             Random random = new Random(1);
-            for (int length = 1, i = default, j = default, jump = default; length < 1000000; length++)
+            for (int length = 1, i = default, j = default, jump = default; length < 10000; length++)
             {
                 int[] arr = new int[length];
                 for (j = 0; j < length; j++)
