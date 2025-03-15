@@ -71,7 +71,7 @@
                 for (int i = start; i < end; i++)
                     if (arr2[i] == key)
                         return i;
-            for (int i = end - 1; i >= start; i--)
+            for (int i = end; i >= start; i--)
                 if (arr2[i] == key)
                     return i;
             return -1;
@@ -84,8 +84,12 @@
                 if (key <= arr[jump])
                     if (LinearSearch(ref arr, key, jump - jumpStep, jump, true) is var index && index != -1)
                         return index;
-            return LinearSearch(ref arr, key, arr.Length - jumpStep, arr.Length, true);
+            return LinearSearch(ref arr, key, arr.Length - jumpStep, arr.Length - 1, true);
         }
+
+
+
+
         /*for (int i = 0; i * jumpStep < arr2.Length; i++)
             if (key <= arr2[jumpStep * i])
             {
