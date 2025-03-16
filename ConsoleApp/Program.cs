@@ -38,11 +38,10 @@
                 return arrayIndex;
             return -1;
         }
-
-        public static int InterpolationSearch(List<int> arr, int key)
+        public static int InterpolationSearch(int[] arr, int key)
         {
             int low = 0;
-            int high = arr.Count() - 1;
+            int high = arr.Length - 1;
             int pos;
             while (low <= high && key >= arr[low] && key <= arr[high])
             {
@@ -64,7 +63,6 @@
             }
             return -1;
         }
-
         public static int ReversedLinearSearch(ref int[] arr, int key, int start, int end)
         {
             for (int i = end; i >= start; i--)
@@ -89,46 +87,90 @@
             return ReversedLinearSearch(ref arr, key, arr.Length - jumpStep, arr.Length - 1);
         }
 
-        /*for (int i = 0; i * jumpStep < arr2.Length; i++)
-            if (key <= arr2[jumpStep * i])
+        /*for (int j = 0; j * jumpStep < arr2.Length; j++)
+            if (key <= arr2[jumpStep * j])
             {
-                for (int j = jumpStep * j; j >= jumpStep * (i - 1); i--)
+                for (int j = jumpStep * j; j >= jumpStep * (j - 1); j--)
                     if (arr2[j] == key)
                         return j;
                 break;
             }*/
-        /*                    for (int i = jump; i >= jump - jumpStep; i--)
-                                if (arr2[i] == key)
-                                    return i;
+        /*                    for (int j = jump; j >= jump - jumpStep; j--)
+                                if (arr2[j] == key)
+                                    return j;
                             LinearSearch(arr2[(jump - jumpStep)..jump], key, true) :
                                        LinearSearch(arr2[(arr2.Length - 1 - jumpStep)..(arr2.Length - 1)], key, true);
                         }
-                        for (int i = arr2.Length - 1; i >= arr2.Length - 1 - jumpStep; i--)
-                            if (arr2[i] == key)
-                                return i;*/
+                        for (int j = arr2.Length - 1; j >= arr2.Length - 1 - jumpStep; j--)
+                            if (arr2[j] == key)
+                                return j;*/
+
+
+        static void BubbleSort(int[] arr, int n)
+        {
+            int temp;
+            bool isSorted;
+            for (int i = 0, j; i < arr.Length - 1; i++)
+            {
+                isSorted = true;
+                for (j = 0; j < arr.Length - i - 1; j++)
+                {
+                    if (arr[j] > arr[j + 1])
+                    {
+                        temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                        isSorted = false;
+                    }
+                }
+                if (isSorted)
+                    break;
+            }
+        }
+
+        static int BinarySearch(int[] arr, int n)
+        {
+            int low = 0, high = arr.Length - 1, mid;
+            for (int i = 0; i < 7; i++)
+            {
+                mid = (low + high) / 2;
+                if (arr[mid] == n)
+                    return mid;
+                if (n < arr[mid])
+                {
+                    high = mid;
+                    continue;
+                }
+                low = mid;
+            }
+            return -1;
+        }
 
         static void Main(string[] args)
         {
+
+            int[] arr = { 1, 2, 3 };
             //Console.WriteLine(FibofibonacciSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 10));
             //Console.WriteLine(InterpolationSearch(new List<int> { -15, 5, 2, 5, 7, 10, 28, 30, 45, 56 }, 11));
-            Random random = new Random(1);
-            for (int length = 1, i = default, j = default, jump = default; length < 10000; length++)
-            {
-                int[] arr = new int[length];
-                for (j = 0; j < length; j++)
-                {
-                    arr[j] = random.Next(j * 10000, (j + 1) * 10000);
-                }
-                for (i = 0; i < arr.Length; i++)
-                {
-                    jump = JumpSearch(arr, arr[i]);
-                    if (-1 == jump)
-                    {
-                        Console.WriteLine("{0} {1} {2}", arr[i], jump, length);
-                    }
-                    //Console.WriteLine(arr2[i]);
-                }
-            }
+            //Random random = new Random(1);
+            //for (int length = 1, j = default, j = default, jump = default; length < 10000; length++)
+            //{
+            //    int[] arr = new int[length];
+            //    for (j = 0; j < length; j++)
+            //    {
+            //        arr[j] = random.Next(j * 10000, (j + 1) * 10000);
+            //    }
+            //    for (j = 0; j < arr.Length; j++)
+            //    {
+            //        jump = JumpSearch(arr, arr[j]);
+            //        if (-1 == jump)
+            //        {
+            //            Console.WriteLine("{0} {1} {2}", arr[j], jump, length);
+            //        }
+            //        //Console.WriteLine(arr2[j]);
+            //    }
+            //}
+            BinarySearch([1], 1);
         }
     }
 }
